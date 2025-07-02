@@ -23,8 +23,11 @@ printf %s "server {
 }
 " > /etc/nginx/sites-available/default
 
-# Restart Nginx using service command (avoid systemctl)
+# Ensure Nginx is running by restarting it
 service nginx restart
 
-# Optional: Verify the Nginx service is running
-# service nginx status
+# Check Nginx status to ensure it's running and serving on port 80
+service nginx status
+
+# Verify that Nginx is returning the correct content by using curl locally
+curl localhost
