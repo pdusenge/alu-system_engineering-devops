@@ -1,36 +1,17 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx to serve a page containing "Holberton School"
-# It will be run on a fresh Ubuntu machine.
+# Install and configure Nginx to return "Holberton School" at the root
 
 set -e
 
-# Update the package index
+# Update and install Nginx
 apt-get update -y
-
-# Install Nginx
 apt-get install -y nginx
 
-# Ensure Nginx is running
+# Start Nginx
 service nginx start
 
-# Set the content of the root index page
-echo "Holberton School for the win!" > /var/www/html/index.html
+# Add content to default page
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
 
-# Configure Nginx to listen on port 80 and serve content from /var/www/html
-printf %s "server {
-    listen      80 default_server;
-    listen      [::]:80 default_server;
-    root        /var/www/html;
-    index       index.html index.htm;
-    server_name _;
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-" > /etc/nginx/sites-available/default
-
-# Restart Nginx to apply the new config
+# Restart Nginx
 service nginx restart
-
-# Check Nginx is responding correctly
-curl localhost
