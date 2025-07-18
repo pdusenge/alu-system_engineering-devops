@@ -2,6 +2,8 @@
 # This script installs and configures Nginx to serve a page containing "Holberton School"
 # It will be run on a fresh Ubuntu machine.
 
+set -e
+
 # Update the package index
 apt-get update -y
 
@@ -20,14 +22,15 @@ printf %s "server {
     listen      [::]:80 default_server;
     root        /var/www/html;
     index       index.html index.htm;
+    server_name _;
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
 }
 " > /etc/nginx/sites-available/default
 
-# Ensure Nginx is running by restarting it
+# Restart Nginx to apply the new config
 service nginx restart
 
-# Check Nginx status to ensure it's running and serving on port 80
-service nginx status
-
-# Verify that Nginx is returning the correct content by using curl locally
+# Check Nginx is responding correctly
 curl localhost
